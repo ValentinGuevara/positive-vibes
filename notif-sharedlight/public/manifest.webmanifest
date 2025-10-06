@@ -1,0 +1,17 @@
+{
+  "name": "Shared Light",
+  "short_name": "SharedLight",
+  "description": "We are all together for a better world",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d9488",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "192x192",
+      "type": "image/svg",
+      "purpose": "any maskable"
+    }
+  ]
+}
