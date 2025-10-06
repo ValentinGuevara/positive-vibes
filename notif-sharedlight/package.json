@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "firebase": "^12.3.0",
+    "motion": "^12.23.22",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-modal-sheet": "^5.1.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
