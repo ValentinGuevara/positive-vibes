@@ -19,7 +19,3 @@ messaging.onBackgroundMessage((payload) => {
     icon: '/pwa-192x192.png',
   });
 });
-
-messaging.onMessage((payload) => {
-  console.log("Message reçu en premier plan dans le SW:", payload);
-});

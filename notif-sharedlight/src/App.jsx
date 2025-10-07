@@ -22,6 +22,33 @@ function App() {
       if (fcmToken) {
         setToken(fcmToken);
         setShowSheet(false);
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const apiKey = import.meta.env.VITE_API_KEY;
+
+
+          const payload = {
+            token: fcmToken
+          };
+
+          try {
+            const response = await fetch(apiUrl, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "x-api-key": apiKey,
+              },
+              body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTP ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log("✅ Réponse API:", data);
+          } catch (err) {
+            console.error("❌ Erreur POST:", err);
+          }
       } else {
         setError("Permission refusée ou aucune clé obtenue.");
       }

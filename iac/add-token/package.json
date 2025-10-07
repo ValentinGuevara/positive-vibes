@@ -1,0 +1,21 @@
+{
+  "name": "add-token",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Valentin Guevara",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild main.ts --bundle --platform=node --target=node20 --outfile=dist/main.js && zip lambda.zip dist/main.js"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.0",
+    "esbuild": "^0.25.10",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.901.0"
+  }
+}
