@@ -7,16 +7,49 @@ This project deploys an AWS Lambda function, triggered via API Gateway WebSocket
 ```
 .
 ├── .gitignore
+├── README.md
+├── arduino/
+│   └── main/
+│       └── main.ino
+├── fcm-notif-server/
+│   ├── index.js                # Node.js script to send FCM notifications
+│   ├── package.json            # Dependencies for FCM server
+│   └── serviceAccountKey.json  # Firebase Admin SDK credentials (gitignored)
 ├── iac/
 │   ├── main.tf                # Terraform configuration
-│   ├── terraform.tfstate*     # Terraform state files
-│   ├── .terraform/            # Terraform providers
 │   ├── tokens.json            # S3-stored FCM tokens
-│   └── lambda/
-│       ├── main.ts            # Lambda function source (TypeScript)
-│       ├── package.json       # Lambda dependencies and build scripts
-│       ├── tsconfig.json      # TypeScript config
-│       └── lambda.zip         # Built Lambda deployment package
+│   ├── add-token/
+│   │   ├── main.ts
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   ├── api-key-lambda/
+│   │   ├── main.ts
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   ├── process-notif/
+│   │   ├── main.ts
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   └── websocket-lambda/
+│       ├── main.ts
+│       ├── package.json
+│       └── tsconfig.json
+├── notif-sharedlight/
+│   ├── .gitignore
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── README.md
+│   ├── vite.config.js
+│   ├── public/
+│   │   ├── manifest.webmanifest
+│   │   └── firebase-messaging-sw.js
+│   └── src/
+│       ├── App.css
+│       ├── App.jsx
+│       ├── firebase.js
+│       ├── index.css
+│       └── main.jsx
 ```
 
 ## Infrastructure
@@ -27,6 +60,11 @@ This project deploys an AWS Lambda function, triggered via API Gateway WebSocket
 - **Secrets Manager**: Stores Gemini API key
 - **IAM**: Roles and policies for Lambda and API Gateway
 - **Terraform**: Manages all AWS resources ([iac/main.tf](iac/main.tf))
+
+## FCM Notification Server
+
+- Standalone Node.js script to send test notifications via Firebase Admin ([fcm-notif-server/index.js](fcm-notif-server/index.js))
+- Requires a Firebase service account key ([fcm-notif-server/serviceAccountKey.json](fcm-notif-server/serviceAccountKey.json), not tracked in git)
 
 ## Lambda Function
 
@@ -59,6 +97,14 @@ cd iac/lambda
 npm install
 npm run build
 # Upload lambda.zip to S3 or let Terraform deploy it as configured
+```
+
+### Send Test Notification
+
+```sh
+cd fcm-notif-server
+npm install
+node index.js
 ```
 
 ## Environment Variables

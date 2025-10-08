@@ -206,7 +206,7 @@ const asyncTask = async (
 					weatherData.current.temperature_2m
 			  } degrés celsius en ${
 					weatherData.current.is_day === 1 ? "journée" : "pleine nuit"
-			  }`
+			  } dans la ville de ${geoData.city}. Le message ne doit pas faire référence directement au code météo ou à la température, mais doit être en lien avec l'état général du temps et la période de la journée.`
 			: `Ecris une notification courte (max 25 mots), positive et apaisante axée sur le bien-être mental, adaptée à la ville de ${geoData.city}`;
 		const model = genAi.getGenerativeModel({ model: "gemini-2.0-flash" });
 		const result = await model.generateContent(prompt);
