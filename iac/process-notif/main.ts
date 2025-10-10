@@ -215,7 +215,7 @@ const asyncTask = async (
 		const invalidTokens = await sendBulkNotification(
 			app,
 			tokens,
-			"Shared Light",
+			"En symbiose",
 			generatedText
 		);
 

@@ -15,6 +15,11 @@ const messaging = getMessaging(app);
 
 export const requestNotificationPermission = async () => {
   try {
+    const cachedToken = localStorage.getItem("fcm_token");
+    if (cachedToken) {
+      console.log("📦 Token trouvé dans le cache :", cachedToken);
+      return cachedToken;
+    }
     const token = await getToken(messaging, {
       vapidKey: "BLTHoGjmVxyPN6bakDU-AiU9umGfQESCWr5RxRwLIMkh0scSZhilICz5-6cZY9-crBBetQfDuvFPI2LWpj3xN5U",
     });
