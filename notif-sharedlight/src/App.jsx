@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react'
 import { requestNotificationPermission } from "./firebase"
+import Lottie from "lottie-react"
+import animationData from './assets/wellbeing.json';
 import { Sheet } from 'react-modal-sheet';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   const [isOpen, setOpen] = useState(false);
   const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
@@ -15,6 +13,18 @@ function App() {
   const [showSheet, setShowSheet] = useState(false);
   const [isIos, setIsIos] = useState(false);
   const [inStandalone, setInStandalone] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [activated, setActivated] = useState(false);
+
+  const copyUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch (err) {
+      console.error("Copy failed", err);
+    }
+  };
 
   const handleActivate = async () => {
     try {
@@ -46,8 +56,11 @@ function App() {
 
             const data = await response.json();
             console.log("✅ Réponse API:", data);
+            setActivated(true);
           } catch (err) {
             console.error("❌ Erreur POST:", err);
+            setError("Erreur lors de l'enregistrement du token.");
+            setActivated(false);
           }
       } else {
         setError("Permission refusée ou aucune clé obtenue.");
@@ -72,62 +85,45 @@ function App() {
 
   return (
     <>
-      <div style={{ textAlign: "center", marginTop: "3rem" }}>
-        <h1>🔥 Notifications Firebase PWA</h1>
+      <div className='flex flex-col items-center justify-between min-h-screen pb-24 pt-12'>
+        <div className='flex flex-col items-center justify-center space-y-16'>
+          <h1 className='font-wellbeing text-xxl tracking-wider'>🍀 Partageons nos bonnes ondes 🪴</h1>
 
-        {!token && (
-          <button
-            onClick={handleActivate}
-            style={{
-              padding: "12px 24px",
-              borderRadius: "12px",
-              border: "none",
-              backgroundColor: "#0d9488",
-              color: "#fff",
-              fontSize: "16px",
-              cursor: "pointer",
-            }}
-          >
-            Activer les notifications
-          </button>
-        )}
+          <div className="w-64 h-64 flex items-center justify-center">
+            <Lottie animationData={animationData} />
+          </div>
+        </div>
 
-        {token && (
-          <>
-            <p>✅ Notifications activées !</p>
-            <textarea
-              readOnly
-              value={token}
-              style={{
-                width: "90%",
-                height: "100px",
-                marginTop: "1rem",
-                fontSize: "12px",
-              }}
-            />
-          </>
-        )}
-
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        <button className={`bg-green-600 hover:bg-green-800 tracking-wide focus:outline-2 focus:outline-offset-2 focus:outline-green-600 border-0 rounded-md px-3 py-2 text-sm font-semibold text-white transition cursor-pointer ${activated && "opacity-40"}`} disabled={activated} onClick={() => {
+          if(isIos && !inStandalone) {
+            setShowSheet(true);
+            setOpen(true);
+          } else {
+            handleActivate();
+          }
+        }}>
+          { !activated ? "Activer les notifications" : "Notifications prêtes" }
+        </button>
       </div>
-      <button onClick={() => setOpen(true)}>Open sheet</button>
 
       <Sheet detent='content' isOpen={isOpen} onClose={() => setOpen(false)}>
-        <Sheet.Container>
-          <Sheet.Header />
+        <Sheet.Container unstyled className='bg-green-600'>
+          <Sheet.Header className='bg-green-600' />
           <Sheet.Content>
-            {isIos && !inStandalone ? (
-              <p>
-                Pour installer la PWA sur iOS, appuyez sur <strong>Partager → Sur l’écran d’accueil</strong> dans Safari.
+            <div className='flex flex-col items-center justify-center space-y-4 pb-8 text-center text-white-400 bg-green-600 trackind-wide'>
+              <p className='font-semibold underline underline-offset-4'>
+                Pour les notifications sur iPhone
               </p>
-            ) : (
-              <>
-                <p>Activez les notifications pour rester informé !</p>
-                <button onClick={handleActivate}>
-                  🔔 Activer les notifications
-                </button>
-              </>
-            )}
+              <p>
+                Appuyez sur <strong>Partager → Sur l’écran d’accueil</strong> dans <strong>Safari</strong>.
+              </p>
+              <button
+                onClick={copyUrl}
+                className="px-4 py-2 bg-green-100 text-white rounded-lg transition cursor-pointer outline-1 outline-neutral-900"
+              >
+                <span className='text-neutral-900 font-semibold'>{copied ? "Copié!" : "📋​ Copier URL"}</span>
+              </button>
+            </div>
           </Sheet.Content>
         </Sheet.Container>
         <Sheet.Backdrop />

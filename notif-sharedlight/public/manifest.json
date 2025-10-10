@@ -8,10 +8,16 @@
   "theme_color": "#0d9488",
   "icons": [
     {
-      "src": "/vite.svg",
+      "src": "/web-app-manifest-192x192.png",
       "sizes": "192x192",
-      "type": "image/svg",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

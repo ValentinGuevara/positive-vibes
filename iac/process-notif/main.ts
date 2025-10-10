@@ -200,14 +200,14 @@ const asyncTask = async (
 		const apiKey = responseSecret.SecretString as string;
 		const genAi = new GoogleGenerativeAI(apiKey);
 		const prompt = weatherData
-			? `Ecris une notification courte (max 25 mots), positive et apaisante axée sur le bien-être mental, adaptée au code météo standardisé définie par World Meteorological Organization (${
+			? `Ecris une notification courte (max 20 mots), positive et apaisante axée sur le bien-être mental, adaptée au code météo standardisé définie par World Meteorological Organization (${
 					weatherData.current.weather_code
 			  }) avec une temperature de ${
 					weatherData.current.temperature_2m
 			  } degrés celsius en ${
 					weatherData.current.is_day === 1 ? "journée" : "pleine nuit"
 			  } dans la ville de ${geoData.city}. Le message ne doit pas faire référence directement au code météo ou à la température, mais doit être en lien avec l'état général du temps et la période de la journée.`
-			: `Ecris une notification courte (max 25 mots), positive et apaisante axée sur le bien-être mental, adaptée à la ville de ${geoData.city}`;
+			: `Ecris une notification courte (max 20 mots), positive et apaisante axée sur le bien-être mental, adaptée à la ville de ${geoData.city}. Le message ne doit pas faire référence directement au code météo ou à la température, mais doit être en lien avec l'état général du temps et la période de la journée.`;
 		const model = genAi.getGenerativeModel({ model: "gemini-2.0-flash" });
 		const result = await model.generateContent(prompt);
 		const generatedText = result.response.text();
