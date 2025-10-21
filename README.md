@@ -1,4 +1,4 @@
-# Shared Light
+# Positive vibes
 
 This project deploys an AWS Lambda function, triggered via API Gateway WebSocket, that sends personalized, weather-based notifications using generative AI. Infrastructure is managed with Terraform.
 
